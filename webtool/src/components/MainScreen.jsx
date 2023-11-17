@@ -11,7 +11,9 @@ export default function MainScreen() {
         <input type="file" id="myfile" name="myfile" multiple/>
         <input type="submit"/>
       </MyForm>
-      <ContentContainer></ContentContainer>
+      <ContentContainer>
+        
+      </ContentContainer>
     </MyContainer>
   )
 }
