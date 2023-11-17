@@ -1,22 +1,45 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
 
 export default function MainScreen() {
+  const [imagen, setImagen] = useState();
+  const [imagenResultado, setImagenResultado] = useState();
+
+  const handleImageUpload = () => {
+    if (imagen) {
+      const formData = new FormData();
+      formData.append('file', imagen);
+
+      fetch('URL_DEL_SERVIDOR', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          setImagenResultado(data.resultado);
+        })
+        .catch(error => console.error('Error al enviar la imagen:', error));
+    }
+  };
+
   return (
-    <MyContainer>
-      <MyHeader>UVG Medical AI assistance</MyHeader>
-      <MyForm>
-        <label for="myfile">Select an image iniciate calculation:????</label>
-        <input type="file" id="myfile" name="myfile" multiple/>
-        <input type="submit"/>
-      </MyForm>
-      <ContentContainer>
-        
-      </ContentContainer>
-    </MyContainer>
-  )
+    <MyForm>
+      <label htmlFor="myfile">Select an image to initiate calculation:</label>
+      <input
+        type="file"
+        id="myfile"
+        name="myfile"
+        multiple
+        onChange={(e) => {
+          setImagen(e.target.files[0]);
+        }}
+      />
+      <input type="submit" onClick={handleImageUpload} />
+    </MyForm>
+  );
 }
+
 
 // God container
 const MyContainer = styled.div`
